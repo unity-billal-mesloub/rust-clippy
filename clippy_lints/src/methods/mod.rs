@@ -4760,6 +4760,7 @@ pub struct Methods {
     allow_unwrap_in_consts: bool,
     allowed_dotfiles: FxHashSet<&'static str>,
     format_args: FormatArgsStorage,
+    allow_unwrap_types: Vec<String>,
 }
 
 impl Methods {
@@ -4776,6 +4777,7 @@ impl Methods {
             allow_unwrap_in_consts: conf.allow_unwrap_in_consts,
             allowed_dotfiles,
             format_args,
+            allow_unwrap_types: conf.allow_unwrap_types.clone(),
         }
     }
 }
@@ -4974,6 +4976,7 @@ impl<'tcx> LateLintPass<'tcx> for Methods {
                     self.allow_expect_in_tests,
                     self.allow_unwrap_in_consts,
                     self.allow_expect_in_consts,
+                    &self.allow_unwrap_types,
                 );
             },
             ExprKind::MethodCall(..) => {
@@ -5165,6 +5168,7 @@ impl Methods {
                             format_collect::check(cx, expr, m_arg, m_ident_span);
                         },
                         Some((sym::take, take_self_arg, [take_arg], _, _)) => {
+                            #[expect(clippy::collapsible_match)]
                             if self.msrv.meets(cx, msrvs::STR_REPEAT) {
                                 manual_str_repeat::check(cx, expr, recv, take_self_arg, take_arg);
                             }
@@ -5349,8 +5353,8 @@ impl Methods {
                 },
                 (sym::is_file, []) => filetype_is_file::check(cx, expr, recv),
                 (sym::is_digit, [radix]) => is_digit_ascii_radix::check(cx, expr, recv, radix, self.msrv),
-                (sym::is_none, []) => check_is_some_is_none(cx, expr, recv, call_span, false),
-                (sym::is_some, []) => check_is_some_is_none(cx, expr, recv, call_span, true),
+                (sym::is_none, []) => check_is_some_is_none(cx, expr, recv, call_span, false, self.msrv),
+                (sym::is_some, []) => check_is_some_is_none(cx, expr, recv, call_span, true, self.msrv),
                 (sym::iter | sym::iter_mut | sym::into_iter, []) => {
                     iter_on_single_or_empty_collections::check(cx, expr, name, recv);
                 },
@@ -5490,7 +5494,9 @@ impl Methods {
                 (sym::open, [_]) => {
                     open_options::check(cx, expr, recv);
                 },
-                (sym::or_else, [arg]) => {
+                (sym::or_else, [arg]) =>
+                {
+                    #[expect(clippy::collapsible_match)]
                     if !bind_instead_of_map::check_or_else_err(cx, expr, recv, arg) {
                         unnecessary_lazy_eval::check(cx, expr, recv, arg, "or");
                     }
@@ -5595,7 +5601,9 @@ impl Methods {
                 (sym::try_into, []) if cx.ty_based_def(expr).opt_parent(cx).is_diag_item(cx, sym::TryInto) => {
                     unnecessary_fallible_conversions::check_method(cx, expr);
                 },
-                (sym::to_owned, []) => {
+                (sym::to_owned, []) =>
+                {
+                    #[expect(clippy::collapsible_match)]
                     if !suspicious_to_owned::check(cx, expr, span) {
                         implicit_clone::check(cx, name, expr, recv);
                     }
@@ -5722,6 +5730,7 @@ impl Methods {
                         false,
                         self.allow_expect_in_consts,
                         self.allow_expect_in_tests,
+                        &self.allow_unwrap_types,
                         unwrap_expect_used::Variant::Expect,
                     );
                     expect_fun_call::check(cx, &self.format_args, expr, method_span, recv, arg);
@@ -5734,6 +5743,7 @@ impl Methods {
                         true,
                         self.allow_expect_in_consts,
                         self.allow_expect_in_tests,
+                        &self.allow_unwrap_types,
                         unwrap_expect_used::Variant::Expect,
                     );
                 },
@@ -5754,6 +5764,7 @@ impl Methods {
                         false,
                         self.allow_unwrap_in_consts,
                         self.allow_unwrap_in_tests,
+                        &self.allow_unwrap_types,
                         unwrap_expect_used::Variant::Unwrap,
                     );
                 },
@@ -5765,6 +5776,7 @@ impl Methods {
                         true,
                         self.allow_unwrap_in_consts,
                         self.allow_unwrap_in_tests,
+                        &self.allow_unwrap_types,
                         unwrap_expect_used::Variant::Unwrap,
                     );
                 },
@@ -5774,7 +5786,14 @@ impl Methods {
     }
 }
 
-fn check_is_some_is_none(cx: &LateContext<'_>, expr: &Expr<'_>, recv: &Expr<'_>, call_span: Span, is_some: bool) {
+fn check_is_some_is_none<'tcx>(
+    cx: &LateContext<'tcx>,
+    expr: &'tcx Expr<'tcx>,
+    recv: &'tcx Expr<'tcx>,
+    call_span: Span,
+    is_some: bool,
+    msrv: Msrv,
+) {
     match method_call(recv) {
         Some((name @ (sym::find | sym::position | sym::rposition), f_recv, [arg], span, _)) => {
             search_is_some::check(cx, expr, name, is_some, f_recv, arg, recv, span);
@@ -5784,6 +5803,9 @@ fn check_is_some_is_none(cx: &LateContext<'_>, expr: &Expr<'_>, recv: &Expr<'_>,
         },
         Some((sym::first, f_recv, [], _, _)) => {
             unnecessary_first_then_check::check(cx, call_span, recv, f_recv, is_some);
+        },
+        Some((sym::filter, f_recv, [arg], _, _)) => {
+            manual_is_variant_and::check_is_some_is_none(cx, call_span, f_recv, arg, is_some, msrv);
         },
         _ => {},
     }
