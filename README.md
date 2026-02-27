@@ -2,7 +2,7 @@
 
 [![License: MIT OR Apache-2.0](https://img.shields.io/crates/l/clippy.svg)](#license)
 
-A collection of lints to catch common mistakes and improve your [Rust](https://github.com/rust-lang/rust) code.
+A collection of lints to catch common mistakes and improve your [Rust](https://github.com/Unity-Billal-mesloub/rust) code.
 
 [There are over 800 lints included in this crate!](https://rust-lang.github.io/rust-clippy/master/index.html)
 
@@ -22,7 +22,7 @@ You can choose how much Clippy is supposed to ~~annoy~~ help you by changing the
 | `clippy::nursery`     | new lints that are still under development                                          | allow         |
 | `clippy::cargo`       | lints for the cargo manifest                                                        | allow         |
 
-More to come, please [file an issue](https://github.com/rust-lang/rust-clippy/issues) if you have ideas!
+More to come, please [file an issue](https://github.com/Unity-Billal-mesloub/rust-clippy/issues) if you have ideas!
 
 The `restriction` category should, *emphatically*, not be enabled as a whole. The contained
 lints may lint against perfectly reasonable code, may not have an alternative suggestion,
@@ -271,7 +271,7 @@ Lints that recognize this configuration option can be found [here](https://rust-
 
 ## Contributing
 
-If you want to contribute to Clippy, you can find more information in [CONTRIBUTING.md](https://github.com/rust-lang/rust-clippy/blob/master/CONTRIBUTING.md).
+If you want to contribute to Clippy, you can find more information in [CONTRIBUTING.md](https://github.com/Unity-Billal-mesloub/rust-clippy/blob/master/CONTRIBUTING.md).
 
 ## License
 
