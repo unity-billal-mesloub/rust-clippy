@@ -49,7 +49,7 @@ a [developer guide] and is a good place to start your journey.
 All issues on Clippy are mentored, if you want help simply ask someone from the
 Clippy team directly by mentioning them in the issue or over on [Zulip]. All
 currently active team members can be found
-[here](https://github.com/rust-lang/rust-clippy/blob/master/triagebot.toml#L18)
+[here](https://github.com/Unity-Billal-mesloub/rust-clippy/blob/main/triagebot.toml#L18)
 
 Some issues are easier than others. The [`good first issue`] label can be used to find the easy
 issues. You can use `@rustbot claim` to assign the issue to yourself.
@@ -79,16 +79,16 @@ debugging to find the actual problem behind the issue.
 lot of methods that are useful, though one of the most useful would be `expr_ty` (gives the type of
 an AST expression).
 
-[`good first issue`]: https://github.com/rust-lang/rust-clippy/labels/good%20first%20issue
-[`S-inactive-closed`]: https://github.com/rust-lang/rust-clippy/pulls?q=is%3Aclosed+label%3AS-inactive-closed
-[`T-AST`]: https://github.com/rust-lang/rust-clippy/labels/T-AST
-[`T-middle`]: https://github.com/rust-lang/rust-clippy/labels/T-middle
-[`E-medium`]: https://github.com/rust-lang/rust-clippy/labels/E-medium
+[`good first issue`]: https://github.com/Unity-Billal-mesloub/rust-clippy/labels/issue
+[`S-inactive-closed`]: https://github.com/Unity-Billal-mesloub/rust-clippy/pulls
+[`T-AST`]: https://github.com/Unity-Billal-mesloub/rust-clippy/labels/T-AST
+[`T-middle`]: https://github.com/Unity-Billal-mesloub/rust-clippy/labels/T-middle
+[`E-medium`]: https://github.com/Unity-Billal-mesloub/rust-clippy/labels/E-medium
 [`ty`]: https://doc.rust-lang.org/nightly/nightly-rustc/rustc_middle/ty
 [nodes in the AST docs]: https://doc.rust-lang.org/nightly/nightly-rustc/rustc_ast/ast/
-[deep-nesting]: https://github.com/rust-lang/rust-clippy/blob/5e4f0922911536f80d9591180fa604229ac13939/clippy_lints/src/mem_forget.rs#L31-L45
-[let chains]: https://github.com/rust-lang/rust/pull/94927
-[nest-less]: https://github.com/rust-lang/rust-clippy/blob/5e4f0922911536f80d9591180fa604229ac13939/clippy_lints/src/bit_mask.rs#L133-L159
+[deep-nesting]: https://github.com/Unity-Billal-mesloub/rust-clippy/blob/5e4f0922911536f80d9591180fa604229ac13939/clippy_lints/src/mem_forget.rs#L31-L45
+[let chains]: https://github.com/Unity-Billal-mesloub/rust/pull
+[nest-less]: https://github.com/Unity-Billal-mesloub/rust-clippy/blob/5e4f0922911536f80d9591180fa604229ac13939/clippy_lints/src/bit_mask.rs#L133-L159
 
 ## Getting code-completion for rustc internals to work
 
@@ -106,7 +106,7 @@ The command will add path-dependencies pointing towards rustc-crates inside the 
 Clippy's `Cargo.toml`s and should allow `RustRover` to understand most of the types that Clippy uses.
 Just make sure to remove the dependencies again before finally making a pull request!
 
-[rustc_repo]: https://github.com/rust-lang/rust/
+[rustc_repo]: https://github.com/Unity-Billal-mesloub/rust/
 [RustRover_homepage]: https://www.jetbrains.com/rust/
 
 ### Rust Analyzer
@@ -181,8 +181,8 @@ via the `LateContext` parameter.
 That's why the `else_if_without_else` example uses the `register_early_pass` function. Because the
 [actual lint logic][else_if_without_else] does not depend on any type information.
 
-[lint_crate_entry]: https://github.com/rust-lang/rust-clippy/blob/master/clippy_lints/src/lib.rs
-[else_if_without_else]: https://github.com/rust-lang/rust-clippy/blob/4253aa7137cb7378acc96133c787e49a345c2b3c/clippy_lints/src/else_if_without_else.rs
+[lint_crate_entry]: https://github.com/Unity-Billal-mesloub/rust-clippy/blob/master/clippy_lints/src/lib.rs
+[else_if_without_else]: https://github.com/Unity-Billal-mesloub/rust-clippy/blob/4253aa7137cb7378acc96133c787e49a345c2b3c/clippy_lints/src/else_if_without_else.rs
 [`LintStore`]: https://doc.rust-lang.org/nightly/nightly-rustc/rustc_lint/struct.LintStore.html
 [reg_early_pass]: https://doc.rust-lang.org/nightly/nightly-rustc/rustc_lint/struct.LintStore.html#method.register_early_pass
 [reg_late_pass]: https://doc.rust-lang.org/nightly/nightly-rustc/rustc_lint/struct.LintStore.html#method.register_late_pass
@@ -222,11 +222,11 @@ Note that false negatives do not have priority unless the case is very clear, as
 trench coat.
 
 [triage]: https://forge.rust-lang.org/release/triage-procedure.html
-[search_ice]: https://github.com/rust-lang/rust-clippy/issues?q=sort%3Aupdated-desc+state%3Aopen+label%3A%22I-ICE%22
-[sugg_causes_bug]: https://github.com/rust-lang/rust-clippy/issues?q=sort%3Aupdated-desc%20state%3Aopen%20label%3AI-suggestion-causes-bug
-[sugg_causes_error]: https://github.com/rust-lang/rust-clippy/issues?q=sort%3Aupdated-desc%20state%3Aopen%20label%3AI-suggestion-causes-error%20
-[false_positive]: https://github.com/rust-lang/rust-clippy/issues?q=sort%3Aupdated-desc%20state%3Aopen%20label%3AI-false-positive
-[tracking_issue]: https://github.com/rust-lang/rust-clippy/issues/15086
+[search_ice]: https://github.com/Unity-Billal-mesloub/rust-clippy/issues?q=sort%3Aupdated-desc+state%3Aopen+label%3A%22I-ICE%22
+[sugg_causes_bug]: https://github.com/Unity-Billal-mesloub/rust-clippy/issues?q=sort%3Aupdated-desc%20state%3Aopen%20label%3AI-suggestion-causes-bug
+[sugg_causes_error]: https://github.com/Unity-Billal-mesloub/rust-clippy/issues?q=sort%3Aupdated-desc%20state%3Aopen%20label%3AI-suggestion-causes-error%20
+[false_positive]: https://github.com/Unity-Billal-mesloub/rust-clippy/issues?q=sort%3Aupdated-desc%20state%3Aopen%20label%3AI-false-positive
+[tracking_issue]: https://github.com/Unity-Billal-mesloub/rust-clippy/issues
 
 ## Contributions
 
